@@ -81,7 +81,7 @@ class Model:
                     fp = fp / "0.json"
 
                     with open(fp, "w") as f:
-                        f.write(value.__repr__())
+                        f.write(json.dumps({"name": key, "data": json.loads(value.__repr__())}))
 
 
 
@@ -231,7 +231,7 @@ class Model:
                 idx-=1
 
             return results
-        except KeyboardInterrupt:
+        except Exception:
             return None
 
 
