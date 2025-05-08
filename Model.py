@@ -135,8 +135,8 @@ class Model:
                     for f in self.fields:
                         if f['name'] == name:
                             i = self.fields.index(f)
-                            self.fields[i]['data']['values'] = content['values']
-                            self.fields[i]['data']['type'] = content['type']
+                            self.fields[i]['data']['values'] = content['data']['values']
+                            self.fields[i]['data']['type'] = content['data']['type']
                             return
         except Exception:
             return None
@@ -156,7 +156,7 @@ class Model:
 
                         if f['type'] == type(field_value).__name__:
                             self.__loadFieldValues__(field_name)
-                            f['values'].append(field_value)
+                            self.fields[i]['data']['values'].append(field_value)
 
                             fp = self.__getFieldFreePath__(field_name)
                             
@@ -219,7 +219,7 @@ class Model:
                     values = content['data']['values']
 
                     if len(values) >= limit:
-                        return values[::limit]
+                        return values[0:limit]
 
                     else:
                         for i in values:
@@ -344,6 +344,16 @@ class Model:
             return None
 
 
+    def getRows(self, limit: int = 100) -> dict:
+        try:
+            results = dict()
+
+            for field in self.fields:
+                results.update({field['name']: self.values(field['name'], limit)})
+
+            return results
+        except Exception:
+            return {}
 
 
     # get row where field_name = field_value
@@ -426,6 +436,7 @@ class Model:
 
         except Exception as e:
             return e
+
 
 
 
