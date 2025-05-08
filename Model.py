@@ -263,7 +263,7 @@ class Model:
                     for i in values:
                         if str(i).find(search_query) != -1:
                             if len(results) < limit:
-                                results.append(i)
+                                results.append(self.getRow(name, i))
 
                             else:
                                 return results
@@ -436,7 +436,5 @@ class Model:
 
         except Exception as e:
             return e
-
-
 
 
